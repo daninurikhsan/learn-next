@@ -1,54 +1,15 @@
 import SearchForm from "@/components/SearchForm";
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartUpTypeCard } from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 
 export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?:string }>
 }) {
   
   const query = (await searchParams).query
-  const posts = [
-    {
-      _createdAt: new Date(),
-      views: 55,
-      author: { _id: 1, name: "Dani" },
-      _id: 1,
-      description: "This is a description",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdfrT8Vjk9QJrwwSwwBUzizJ2vPTiZ9Y6lcA&s",
-      category: "Robots",
-      title: "We Robots"
-    },
-    {
-      _createdAt: new Date(),
-      views: 55,
-      author: { _id: 1, name: "Dani" },
-      _id: 2,
-      description: "This is a description",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdfrT8Vjk9QJrwwSwwBUzizJ2vPTiZ9Y6lcA&s",
-      category: "Robots",
-      title: "We Robots"
-    },
-    {
-      _createdAt: new Date(),
-      views: 55,
-      author: { _id: 1, name: "Dani" },
-      _id: 3,
-      description: "This is a description",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdfrT8Vjk9QJrwwSwwBUzizJ2vPTiZ9Y6lcA&s",
-      category: "Robots",
-      title: "We Robots"
-    },
-    {
-      _createdAt: new Date(),
-      views: 55,
-      author: { _id: 1, name: "Dani" },
-      _id: 4,
-      description: "This is a description",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdfrT8Vjk9QJrwwSwwBUzizJ2vPTiZ9Y6lcA&s",
-      category: "Robots",
-      title: "We Robots"
-    },
-  ]
 
+  const posts = await client.fetch(STARTUPS_QUERY);
 
   return (
     <>
@@ -68,7 +29,7 @@ export default async function Home({ searchParams }: {
 
         <ul className="mt-7 card_grid">
             {posts?.length > 0 ? (
-              posts.map((post: StartupCardType, index: number) => (
+              posts.map((post: StartUpTypeCard, index: number) => (
                 <StartupCard key={post?._id} post={post}/>
               ))
             ):(
